@@ -11,7 +11,7 @@ import json
 
 # Para gerar uuid, entre no link: https://www.uuidgenerator.net
 # O tópico de publicação é o mesmo uuid, dessa forma garanto que dado sensor é publicado num único local 
-sensor_uuid = "3aa027bd-4afc-461c-b353-c2535008f4ce"
+sensor_uuid = "a08042cf-8610-4bd4-8bea-6320ce7c613b"
 gw_uuid = "3aa027bd-4afc-461c-b353-c2535008f4ce"
 
 # JSON é composto pelos dados da borda, ip e port, e uuid do sensor
