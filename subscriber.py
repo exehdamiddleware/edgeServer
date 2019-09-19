@@ -10,6 +10,8 @@ from publisher import *
 class Subscriber(object):
     """docstring for subscriber."""
     def __init__(self):
+        self.uuid = "b0013009-740b-4373-9aec-687c7818df06"
+
 
         self.client = paho.Client()
         self.client.on_connect = self.on_connect
@@ -30,12 +32,20 @@ class Subscriber(object):
         print(rc)
 
     def on_message(self, mosq, obj, msg):
-        print("Enviando para processar")
+        print(mosq)
+        print(obj)
+        print("Enviando para SC")
         print(msg.payload.decode("utf-8"))
-        
+
         msg = msg.payload.decode("utf-8")
+        msg["uuid_edge"] = self.uuid 
+        # print(msg)
+
+        topic = "edge"
+
         pub = Publisher("200.132.96.10", 1883)
-        pub.on_publish(msg, 'teste')
+        pub.on_publish(msg, topic)
+
         # print(msg.topic+" "+str(msg.qos)+" "+str(msg.payload))
 
     def on_publish(self, mosq, obj, mid):
