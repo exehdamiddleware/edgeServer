@@ -5,6 +5,7 @@ A small example subscriber
 """
 from threading import Thread
 import paho.mqtt.client as paho
+from publisher import *
 
 class Subscriber(object):
     """docstring for subscriber."""
@@ -31,6 +32,10 @@ class Subscriber(object):
     def on_message(self, mosq, obj, msg):
         print("Enviando para processar")
         print(msg.payload.decode("utf-8"))
+        
+        msg = msg.payload.decode("utf-8")
+        pub = Publisher("200.132.96.10", 1883)
+        pub.on_publish(msg, 'teste')
         # print(msg.topic+" "+str(msg.qos)+" "+str(msg.payload))
 
     def on_publish(self, mosq, obj, mid):
