@@ -14,7 +14,7 @@ import json
 # uuid = "3aa027bd-4afc-461c-b353-c2535008f4ce"
 
 sub = Subscriber()
-sub.add_subscribe("gateway")
+sub.add_subscribe("GW_3aa027bd-4afc-461c-b353-c2535008f4ce")
 
 # time.sleep(5) 
 
