@@ -37,13 +37,13 @@ class Subscriber(object):
 
         # data = json.loads(data)
         # collect_data = self.collect_sensor(data["uuid"])
-        msg = '{"uuid_edge": "20", "data": 85.0, "type": "pub", "uuid_gw": "a08042cf-8610-4bd4-8bea-6320ce7c613b"}'
+        msg = '{"date": "2019-09-23 10:19:44", "uuid_gateway": "3aa027bd-4afc-461c-b353-c2535008f4ce", "uuid_edge": "b0013009-740b-4373-9aec-687c7818df06", "uuid_sensor": "a08042cf-8610-4bd4-8bea-6320ce7c613b", "data": 85.0, "type": "pub"}'
 
         self.on_publish("127.0.0.1", 1883, "GW", msg)
 
     def on_publish(self, ip, port, topic, msg):
         # self.client.connect(ip, port)
-        print("INDO")
+        # print("INDO")
         self.client.publish(topic=topic, payload=msg, qos=0, retain=False)
 
     # Simula um coleta do sensor, retornando um valor randomico

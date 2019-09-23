@@ -49,9 +49,10 @@ class Subscriber(object):
         msg_json = json.dumps(msg_json)
      
         print(msg_json)
-        topic = "teste"
+        topic = "edgeServer"
 
-        pub = Publisher("200.132.96.10", 1883)
+        # pub = Publisher("200.132.96.10", 1883)
+        pub = Publisher("127.0.0.1", 1883)
         pub.on_publish(msg_json, topic)
 
         # print(msg.topic+" "+str(msg.qos)+" "+str(msg.payload))
