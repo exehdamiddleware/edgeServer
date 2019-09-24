@@ -17,7 +17,7 @@ class Table():
             CREATE TABLE IF NOT EXISTS manufacturer (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT,
-                begin_date TEXT
+                web_site TEXT
             ); 
         """)
 
@@ -25,7 +25,11 @@ class Table():
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS gateway (
                 uuid INTEGER PRIMARY KEY,
-                url TEXT,
+                name TEXT,
+                ip TEXT NOT NULL,
+                port INTEGER NOT NULL,
+                user TEXT NOT NULL,
+                password TEXT NOT NULLam,
                 manufacturer_id INTEGER NOT NULL,
                 FOREIGN KEY (manufacturer_id) REFERENCES manufacturer (id)
             ); 
@@ -74,7 +78,7 @@ class Table():
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 value INTEGER,
                 collect_date TEXT, 
-                publisher BLOB
+                publisher BLOB,
                 sensor_id INTEGER NOT NULL,
                 context_server_id INTEGER NOT NULL,
                 FOREIGN KEY (sensor_id) REFERENCES sensor (uuid),
@@ -94,6 +98,39 @@ class Table():
                 month TEXT NOT NULL,
                 year TEXT NOT NULL,
                 sensor_id INTEGER NOT NULL,
+                FOREIGN KEY (sensor_id) REFERENCES sensor (uuid)
+            ); 
+        """)
+
+    def create_table_action_rule(self):
+        self.cursor.execute("""
+            CREATE TABLE IF NOT EXISTS action_rule (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                command TEXT NOT NULL
+            ); 
+        """)
+
+    def create_table_rule(self):
+        self.cursor.execute("""
+            CREATE TABLE IF NOT EXISTS rule (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT,
+                rule TEXT,
+                action_rule_id INTEGER NOT NULL,
+                sensor_rule_id INTEGER NOT NULL,
+                sensor_id INTEGER NOT NULL,
+                FOREIGN KEY (action_rule_id) REFERENCES action_rule (id),
+                FOREIGN KEY (sensor_rule_id) REFERENCES sensor_rule (id),
+                FOREIGN KEY (sensor_id) REFERENCES sensor (uuid),
+            ); 
+        """)
+
+    def create_table_sensor_rule(self):
+        self.cursor.execute("""
+            CREATE TABLE IF NOT EXISTS sensor_rule (
+                rule_id INTEGER NOT NULL,
+                sensor_id INTEGER NOT NULL,
+                FOREIGN KEY (rule_id) REFERENCES rule (id),
                 FOREIGN KEY (sensor_id) REFERENCES sensor (uuid)
             ); 
         """)
