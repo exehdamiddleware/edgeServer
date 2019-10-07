@@ -25,6 +25,7 @@ port = 1883
 ipc = IPC(username, password, host, port)
 
 print("JUCA")
+print("JUCA")
 
 
 
