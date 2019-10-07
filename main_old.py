@@ -11,8 +11,14 @@ import json
 
 # Para gerar uuid, entre no link: https://www.uuidgenerator.net
 # O tópico de publicação é o mesmo uuid, dessa forma garanto que dado sensor é publicado num único local 
-sensor_uuid = "a08042cf-8610-4bd4-8bea-6320ce7c613b"
+sensor_uuid = "3aa027bd-4afc-461c-b353-c2535008f4ce"
 gw_uuid = "3aa027bd-4afc-461c-b353-c2535008f4ce"
+
+sub = Subscriber()
+sub.add_subscribe('GW')
+
+time.sleep(1) 
+
 
 # JSON é composto pelos dados da borda, ip e port, e uuid do sensor
 msg = {'uuid': sensor_uuid}
@@ -20,12 +26,10 @@ msg = {'uuid': sensor_uuid}
 msg = json.dumps(msg)
 
 # Dados do gateway
-# topic = "GW_"+gw_uuid
-topic = "GW"
-
+topic = "GW_"+gw_uuid
 
 pub = Publisher("127.0.0.1", 1883)
-# conta =0
-# while(conta < 10):
-pub.on_publish(msg, topic)
-# conta = conta +1
+conta =0
+while(conta < 10):
+     pub.on_publish(msg, topic)
+     conta = conta +1
