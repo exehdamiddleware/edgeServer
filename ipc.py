@@ -2,11 +2,14 @@
 
 import paho.mqtt.client as paho
 from threading import Thread
+from event_treatment import *
 
 
 class IPC(object):
     """docstring for IPC"""
     def __init__(self, username, password, host, port):
+        self.event_treatment = Event_Treatment()
+
         self.client = paho.Client()
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
@@ -23,10 +26,10 @@ class IPC(object):
     def on_connect(self, client, userdata, flags, rc):
         print(rc)
 
+    # Recebe a mensagem do broker e envia para o processamento de eventos para tratar a mensagem
     def on_message(self, mosq, obj, msg):
-        print(msg.payload.decode("utf-8"))
-        print("=========================")
-
+        self.event_treatment.process_event(msg.payload.decode("utf-8"))
+        
     def on_publish(self, mosq, obj, mid):
         pass
 

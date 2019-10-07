@@ -7,6 +7,7 @@ import threading
 # import time
 # import json
 from ipc import *
+import uuid
 
 # https://www.w3schools.com/python/python_json.asp
 
@@ -16,39 +17,24 @@ from ipc import *
 # gw_uuid = "3aa027bd-4afc-461c-b353-c2535008f4ce"
 
 
-# Informações de acesso do Servidor de Contexto
-username = "middleware"
-password = "exehda"
-host = "127.0.0.1"
-port = 1883
+# Informações de acesso ao Broker no Servidor de Contexto
+username_CS = "middleware"
+password_CS = "exehda"
+host_CS = "127.0.0.1"
+port_CS = 1883
 
-ipc = IPC(username, password, host, port)
+# Informações de acesso ao Broker no Servidor de Borda
+username_ES = "middleware"
+password_ES = "exehda"
+host_ES = "127.0.0.1"
+port_ES = 1883
 
-print("JUCA")
-print("JUCA")
+#
+ipc = IPC(username_ES, password_ES, host_ES, port_ES)
 
+# Make a UUID using an MD5 hash of a namespace UUID and a name
+# Realizando um IF para verificar a existencia do uuid_ES no DB
+uuid_ES = uuid.uuid3(uuid.NAMESPACE_DNS, 'middleware_EXEHDA')
 
+print(uuid_ES)
 
-# sub = Subscriber(username, password, host, port)
-# sub.add_subscribe('GW')
-
-
-
-
-
-# time.sleep(1) 
-
-
-# JSON é composto pelos dados da borda, ip e port, e uuid do sensor
-# msg = {'uuid': sensor_uuid}
-# # convert into JSON:
-# msg = json.dumps(msg)
-
-# # Dados do gateway
-# topic = "GW_"+gw_uuid
-
-# pub = Publisher("127.0.0.1", 1883)
-# conta =0
-# while(conta < 10):
-#      pub.on_publish(msg, topic)
-#      conta = conta +1
