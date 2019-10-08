@@ -6,16 +6,10 @@ import threading
 #from publisher import *
 # import time
 # import json
-from ipc import *
 import uuid
-
-# https://www.w3schools.com/python/python_json.asp
-
-# Para gerar uuid, entre no link: https://www.uuidgenerator.net
-# O tópico de publicação é o mesmo uuid, dessa forma garanto que dado sensor é publicado num único local 
-# sensor_uuid = "3aa027bd-4afc-461c-b353-c2535008f4ce"
-# gw_uuid = "3aa027bd-4afc-461c-b353-c2535008f4ce"
-
+from scheduler import *
+from event_treatment import *
+from ipc import *
 
 # Informações de acesso ao Broker no Servidor de Contexto
 username_CS = "middleware"
@@ -29,8 +23,18 @@ password_ES = "exehda"
 host_ES = "127.0.0.1"
 port_ES = 1883
 
-#
-ipc = IPC(username_ES, password_ES, host_ES, port_ES)
+
+# Cria os objetos na seguinte ordem:
+#	- Scheduler
+#	- Event_treatment
+#	- ipc   <----- Nesse componente é compartilhado os dois objetos criado acima
+
+scheduler = Scheduler()
+event_treatment = Event_Treatment(scheduler)
+ipc = IPC(event_treatment, username_ES, password_ES, host_ES, port_ES)
+
+# Utilizado para o compartilhamento dos metodos do Objeto IPC no event_treatment
+event_treatment.add_object(ipc)
 
 # Make a UUID using an MD5 hash of a namespace UUID and a name
 # Realizando um IF para verificar a existencia do uuid_ES no DB

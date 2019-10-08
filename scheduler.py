@@ -1,22 +1,34 @@
-import json
-import threading
-import time
-from core.event_treatment import *
+# import json
+# import threading
+# import time
+# from core.event_treatment import *
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
-class SchedulerEdge(object):
+class Scheduler(object):
 
-    # core = None
+    def __init__(self):
 
-    def __init__(self, parent):             #instância do objeto e inicia o escalonador
+        # Instância um agendador no background
+        self.scheduler = BackgroundScheduler()
+        self.scheduler.start()
 
-        # self.core = parent
-        self.scheduler = BackgroundScheduler()          # atribui um agendador background
-        self.scheduler.start()    
+    # Verificar os argumentos recebidos
+    def add_job(self, jsonObject):   
+        # print(jsonObject)
 
-        print("Criou")                      # inicia o agendador
+        if jsonObject['modo'] == 'cron':
+            self.scheduler.add_job(self.function, jsonObject['modo'], second = jsonObject['second'], minute = jsonObject['minute'], 
+                hour = jsonObject['hour'], day = jsonObject['day'], month = jsonObject['month'], year = jsonObject['year'], 
+                id = str(jsonObject['task']['id']), args = [jsonObject],max_instances=50,misfire_grace_time=120)
 
+        else:
+            print("Tarefa difente do cron")
+
+    def function(self, jsonObject):
+        print("function")
+
+    #'{"modo": "cron","task": {"type": "sensor", "id":"51651565641651"},"second":"*/5", "minute":"*", "hour":"*", "day":"*", "month":"*", "year":"*" }'
 
         #self.create_job_check_persistence()
 
