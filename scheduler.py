@@ -1,8 +1,8 @@
 # import json
-# import threading
+import threading
 # import time
 # from core.event_treatment import *
-import random
+# import random
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
@@ -22,10 +22,12 @@ class Scheduler(object):
         if jsonObject['modo'] == 'cron':
             jsonObject['type'] = jsonObject['task']['type']
 
-            self.scheduler.add_job(self.function, jsonObject['modo'], second = jsonObject['second'], minute = jsonObject['minute'], 
-                hour = jsonObject['hour'], day = jsonObject['day'], month = jsonObject['month'], year = jsonObject['year'], 
-                id = str(jsonObject['task']['id']), args = [jsonObject],max_instances=50,misfire_grace_time=120)
-
+            try:
+                self.scheduler.add_job(self.function, jsonObject['modo'], second = jsonObject['second'], minute = jsonObject['minute'], 
+                    hour = jsonObject['hour'], day = jsonObject['day'], month = jsonObject['month'], year = jsonObject['year'], 
+                    id = str(jsonObject['task']['uuid']), args = [jsonObject],max_instances=50,misfire_grace_time=120)
+            except:
+                print("Não foi possível cadastrar o agendamento")
         else:
             print("Tarefa diferente do cron")
 
