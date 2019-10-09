@@ -16,7 +16,7 @@ gw_uuid = "3aa027bd-4afc-461c-b353-c2535008f4ce"
 
 # JSON é composto pelos dados da borda, ip e port, e uuid do sensor
 # msg = {'uuid': sensor_uuid}
-msg = '{"type": "scheduler","modo": "cron","task": {"type": "sensor", "id":"51651565641651"},"second":"*/5", "minute":"*", "hour":"*", "day":"*", "month":"*", "year":"*" }'
+msg = '{"type": "scheduler","modo": "cron","task": {"type": "device", "id":"51651565641651"},"second":"*/5", "minute":"*", "hour":"*", "day":"*", "month":"*", "year":"*" }'
 # convert into JSON:
 # msg = json.dumps(msg)
 

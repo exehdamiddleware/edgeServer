@@ -2,31 +2,38 @@
 # import threading
 # import time
 # from core.event_treatment import *
+import random
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
 class Scheduler(object):
 
-    def __init__(self):
+    event_treatment = None
 
+    def __init__(self):
         # Instância um agendador no background
         self.scheduler = BackgroundScheduler()
         self.scheduler.start()
 
-    # Verificar os argumentos recebidos
+
     def add_job(self, jsonObject):   
         # print(jsonObject)
 
         if jsonObject['modo'] == 'cron':
+            jsonObject['type'] = jsonObject['task']['type']
+
             self.scheduler.add_job(self.function, jsonObject['modo'], second = jsonObject['second'], minute = jsonObject['minute'], 
                 hour = jsonObject['hour'], day = jsonObject['day'], month = jsonObject['month'], year = jsonObject['year'], 
                 id = str(jsonObject['task']['id']), args = [jsonObject],max_instances=50,misfire_grace_time=120)
 
         else:
-            print("Tarefa difente do cron")
+            print("Tarefa diferente do cron")
 
     def function(self, jsonObject):
-        print("function")
+        self.event_treatment.process_event(jsonObject)
+
+    def add_object(self, object_event_treatment):
+        self.event_treatment = object_event_treatment
 
     #'{"modo": "cron","task": {"type": "sensor", "id":"51651565641651"},"second":"*/5", "minute":"*", "hour":"*", "day":"*", "month":"*", "year":"*" }'
 

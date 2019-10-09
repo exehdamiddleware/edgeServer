@@ -35,10 +35,11 @@ ipc = IPC(event_treatment, username_ES, password_ES, host_ES, port_ES)
 
 # Utilizado para o compartilhamento dos metodos do Objeto IPC no event_treatment
 event_treatment.add_object(ipc)
+scheduler.add_object(event_treatment)
 
 # Make a UUID using an MD5 hash of a namespace UUID and a name
 # Realizando um IF para verificar a existencia do uuid_ES no DB
 uuid_ES = uuid.uuid3(uuid.NAMESPACE_DNS, 'middleware_EXEHDA')
 
-print(uuid_ES)
+print("uuid_GW: ", uuid_ES)
 
