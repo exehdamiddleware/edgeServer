@@ -41,22 +41,23 @@ class Event_Treatment(object):
             print("Rule event")
 
         # Recebe os dados de configuracao do GW, armazenando e enviando para o Servidor de Contexto
-        # Trocar o tipo para --->>> configuration
-        elif jsonObject['type'] == "configuration_GW":
+        elif jsonObject['type'] == "configuration":
+            # Como diferenciar o tipo configurações do GW e ES ?
+
             # Salvar os dados no DB
 
             # Envia os dados para o servidor de contexto   ---->>> Arrumar
-            self.ipc.on_publish("teste","mensagem")
+            # self.ipc.on_publish("teste","mensagem")
+            pass
 
         # Envia os dados para o Servidor de Contexto
-        elif jsonObject['type'] == "publisher_GW":
+        elif jsonObject['type'] == "collect":
+
+            # Como diferenciar o tipo de publicação do GW e ES ?
+
             #from_gw_to_Edge_Server
             #receive_from_gw
             pass
-
-        elif jsonObject['type'] == "publisher_to_CS":
-            pass
-                    
 
         else:
             print(jsonObject)

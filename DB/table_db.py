@@ -6,18 +6,23 @@ class Table():
         
         self.create_table_manufacturer()
         self.create_table_gateway()
-        self.create_table_actuator()
-        self.create_table_sensor()
+        self.create_table_device()
         self.create_table_context_server()
         self.create_table_persistance()
         self.create_table_scheduler()
+        self.create_table_action_rule()
 
     def create_table_manufacturer(self):
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS manufacturer (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT,
-                web_site TEXT
+                name TEXT NOT NULL,
+                address TEXT,
+                phone TEXT,
+                url TEXT,
+                city TEXT,
+                state TEXT,
+                country TEXT
             ); 
         """)
 
@@ -26,37 +31,27 @@ class Table():
             CREATE TABLE IF NOT EXISTS gateway (
                 uuid INTEGER PRIMARY KEY,
                 name TEXT,
-                ip TEXT NOT NULL,
-                port INTEGER NOT NULL,
-                user TEXT NOT NULL,
-                password TEXT NOT NULLam,
-                manufacturer_id INTEGER NOT NULL,
+                status BLOB,
+                manufacturer_id INTEGER,
                 FOREIGN KEY (manufacturer_id) REFERENCES manufacturer (id)
             ); 
         """)
-
-    def create_table_actuator(self):
-        self.cursor.execute("""
-            CREATE TABLE IF NOT EXISTS actuator (
-                uuid INTEGER PRIMARY KEY,
-                name TEXT,
-                manufacturer_id INTEGER NOT NULL,
-                gateway_id INTEGER NOT NULL,
-                FOREIGN KEY (manufacturer_id) REFERENCES manufacturer (id),
-                FOREIGN KEY (gateway_id) REFERENCES gateway (uuid)
-            ); 
-        """)
     
-    def create_table_sensor(self):
+    def create_table_device(self):
         self.cursor.execute("""
-            CREATE TABLE IF NOT EXISTS sensor (
+            CREATE TABLE IF NOT EXISTS device (
                 uuid INTEGER PRIMARY KEY,
                 name TEXT,
+                description TEXT,
+                model TEXT,
+                precision TEXT,
                 unit TEXT,
-                manufacturer_id INTEGER NOT NULL,
+                pin INTEGER,
+                driver TEXT
+                manufacturer_id INTEGER,
                 gateway_id INTEGER NOT NULL,
-                FOREIGN KEY (manufacturer_id) REFERENCES manufacturer (id),
-                FOREIGN KEY (gateway_id) REFERENCES gateway (uuid),
+                -- FOREIGN KEY (manufacturer_id) REFERENCES manufacturer (id),
+                FOREIGN KEY (gateway_id) REFERENCES gateway (uuid)
             ); 
         """)
     
@@ -79,9 +74,9 @@ class Table():
                 value INTEGER,
                 collect_date TEXT, 
                 publisher BLOB,
-                sensor_id INTEGER NOT NULL,
+                device_uuid INTEGER NOT NULL,
                 context_server_id INTEGER NOT NULL,
-                FOREIGN KEY (sensor_id) REFERENCES sensor (uuid),
+                FOREIGN KEY (device_uuid) REFERENCES device (uuid),
                 FOREIGN KEY (context_server_id) REFERENCES context_server (uuid)
             ); 
         """)
@@ -97,8 +92,8 @@ class Table():
                 day TEXT NOT NULL,
                 month TEXT NOT NULL,
                 year TEXT NOT NULL,
-                sensor_id INTEGER NOT NULL,
-                FOREIGN KEY (sensor_id) REFERENCES sensor (uuid)
+                device_uuid INTEGER NOT NULL,
+                FOREIGN KEY (device_uuid) REFERENCES device (uuid)
             ); 
         """)
 
@@ -117,22 +112,20 @@ class Table():
                 name TEXT,
                 rule TEXT,
                 action_rule_id INTEGER NOT NULL,
-                sensor_rule_id INTEGER NOT NULL,
-                sensor_id INTEGER NOT NULL,
+                device_uuid INTEGER NOT NULL,
                 FOREIGN KEY (action_rule_id) REFERENCES action_rule (id),
-                FOREIGN KEY (sensor_rule_id) REFERENCES sensor_rule (id),
-                FOREIGN KEY (sensor_id) REFERENCES sensor (uuid),
+                FOREIGN KEY (device_uuid) REFERENCES device (uuid)
             ); 
         """)
 
-    def create_table_sensor_rule(self):
-        self.cursor.execute("""
-            CREATE TABLE IF NOT EXISTS sensor_rule (
-                rule_id INTEGER NOT NULL,
-                sensor_id INTEGER NOT NULL,
-                FOREIGN KEY (rule_id) REFERENCES rule (id),
-                FOREIGN KEY (sensor_id) REFERENCES sensor (uuid)
-            ); 
-        """)
+    # def create_table_sensor_rule(self):
+    #     self.cursor.execute("""
+    #         CREATE TABLE IF NOT EXISTS sensor_rule (
+    #             rule_id INTEGER NOT NULL,
+    #             sensor_id INTEGER NOT NULL,
+    #             FOREIGN KEY (rule_id) REFERENCES rule (id),
+    #             FOREIGN KEY (sensor_id) REFERENCES sensor (uuid)
+    #         ); 
+    #     """)
 
     
