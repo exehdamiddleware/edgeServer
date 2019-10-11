@@ -9,8 +9,9 @@ class DB(object):
 	# conn = None
 	# cursor = None
 	def __init__(self):
+		pass
 		self.conn = sqlite3.connect('clientes.db')
-		self.cursor = self.conn.cursor(self)
+		self.cursor = self.conn.cursor()
 		Table(self.cursor)
 
 	def insert_manufacturer(self, name, address=None, phone=None,url=None,city=None,state=None,country=None):
@@ -35,7 +36,7 @@ class DB(object):
 
 		self.cursor.execute(sqlite_insert_query)
 		
-		return self.cursor.fetchall(self)
+		return self.cursor.fetchall()
 
 	def update_manufacturer(self):
 		pass
@@ -63,15 +64,15 @@ class DB(object):
 	def delete_gateway(self):
 		pass
 
-	def insert_device(self, uuid,name=None,description=None,model=None,precision=None,unit=None,pin=None,driver=None,manufacturer_id=None,gateway_id=None):
+	def insert_device(self, uuid,name=None,description=None,model=None,precision=None,unit=None,pin=None,driver=None,manufacturer=None,gateway_id=None):
 
 		sqlite_insert_query = """
 		INSERT INTO 'device'
-		('uuid','name','description','model','precision','unit','pin','driver','manufacturer_id','gateway_id') 
+		('uuid','name','description','model','precision','unit','pin','driver','manufacturer','gateway_id') 
 		VALUES
 		(?,?,?,?,?,?,?,?,?,?)"""
 
-		record_to_insert = (uuid,name,description,model,precision,unit,pin,driver,manufacturer_id,gateway_id)
+		record_to_insert = (uuid,name,description,model,precision,unit,pin,driver,manufacturer,gateway_id)
 
 		self.cursor.execute(sqlite_insert_query, record_to_insert)
 		self.conn.commit()
@@ -103,15 +104,15 @@ class DB(object):
 	def delete_context_server(self):
 		pass
 
-	def insert_persistance(self,value,collect_date,publisher,device_uuid,context_server_id):
+	def insert_persistance(self,value,collect_date,publisher,device_uuid):
 
 		sqlite_insert_query = """
 		INSERT INTO 'persistance'
-		('value','collect_date','publisher','device_uuid','context_server_id') 
+		('value','collect_date','publisher','device_uuid') 
 		VALUES
-		(?,?,?,?,?)"""
+		(?,?,?,?)"""
 
-		record_to_insert = (value,collect_date,publisher,device_uuid,context_server_id)
+		record_to_insert = (value,collect_date,publisher,device_uuid)
 
 		self.cursor.execute(sqlite_insert_query, record_to_insert)
 		self.conn.commit()
@@ -129,7 +130,7 @@ class DB(object):
 		INSERT INTO 'scheduler'
 		('event','second','minute','hour','day','month','year','device_uuid') 
 		VALUES
-		(?,?,?,?,?,?,?)"""
+		(?,?,?,?,?,?,?,?)"""
 
 		record_to_insert = (event,second,minute,hour,day,month,year,device_uuid)
 

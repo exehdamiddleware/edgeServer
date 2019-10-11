@@ -11,6 +11,7 @@ class Table():
         self.create_table_persistance()
         self.create_table_scheduler()
         self.create_table_action_rule()
+        self.create_table_rule()
 
     def create_table_manufacturer(self):
         self.cursor.execute("""
@@ -29,9 +30,9 @@ class Table():
     def create_table_gateway(self):
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS gateway (
-                uuid INTEGER PRIMARY KEY,
+                uuid TEXT PRIMARY KEY,
                 name TEXT,
-                status BLOB,
+                status INTEGER,
                 manufacturer_id INTEGER,
                 FOREIGN KEY (manufacturer_id) REFERENCES manufacturer (id)
             ); 
@@ -40,16 +41,16 @@ class Table():
     def create_table_device(self):
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS device (
-                uuid INTEGER PRIMARY KEY,
+                uuid TEXT PRIMARY KEY,
                 name TEXT,
                 description TEXT,
                 model TEXT,
                 precision TEXT,
                 unit TEXT,
                 pin INTEGER,
-                driver TEXT
-                manufacturer_id INTEGER,
-                gateway_id INTEGER NOT NULL,
+                driver TEXT,
+                manufacturer TEXT,
+                gateway_id TEXT NOT NULL,
                 -- FOREIGN KEY (manufacturer_id) REFERENCES manufacturer (id),
                 FOREIGN KEY (gateway_id) REFERENCES gateway (uuid)
             ); 
@@ -58,7 +59,7 @@ class Table():
     def create_table_context_server(self):
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS context_server (
-                uuid INTEGER PRIMARY KEY,
+                uuid TEXT PRIMARY KEY,
                 name TEXT,
                 ip TEXT NOT NULL,
                 port INTEGER NOT NULL,
@@ -71,13 +72,11 @@ class Table():
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS persistance (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                value INTEGER,
-                collect_date TEXT, 
-                publisher BLOB,
-                device_uuid INTEGER NOT NULL,
-                context_server_id INTEGER NOT NULL,
-                FOREIGN KEY (device_uuid) REFERENCES device (uuid),
-                FOREIGN KEY (context_server_id) REFERENCES context_server (uuid)
+                value INTEGER NOT NULL,
+                collect_date TEXT NOT NULL, 
+                publisher INTEGER NOT NULL,
+                device_uuid TEXT NOT NULL,
+                FOREIGN KEY (device_uuid) REFERENCES device (uuid)
             ); 
         """)
 
@@ -92,7 +91,7 @@ class Table():
                 day TEXT NOT NULL,
                 month TEXT NOT NULL,
                 year TEXT NOT NULL,
-                device_uuid INTEGER NOT NULL,
+                device_uuid TEXT NOT NULL,
                 FOREIGN KEY (device_uuid) REFERENCES device (uuid)
             ); 
         """)
@@ -111,8 +110,8 @@ class Table():
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT,
                 rule TEXT,
-                action_rule_id INTEGER NOT NULL,
-                device_uuid INTEGER NOT NULL,
+                action_rule_id INTEGER,
+                device_uuid TEXT NOT NULL,
                 FOREIGN KEY (action_rule_id) REFERENCES action_rule (id),
                 FOREIGN KEY (device_uuid) REFERENCES device (uuid)
             ); 
