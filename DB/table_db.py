@@ -16,7 +16,7 @@ class Table():
     def create_table_manufacturer(self):
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS manufacturer (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER NOT NULL PRIMARY KEY,
                 name TEXT NOT NULL,
                 address TEXT,
                 phone TEXT,
@@ -30,9 +30,9 @@ class Table():
     def create_table_gateway(self):
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS gateway (
-                uuid TEXT PRIMARY KEY,
-                name TEXT,
-                status INTEGER,
+                uuid TEXT NOT NULL PRIMARY KEY,
+                name TEXT NOT NULL,
+                status INTEGER NOT NULL,
                 manufacturer_id INTEGER,
                 FOREIGN KEY (manufacturer_id) REFERENCES manufacturer (id)
             ); 
@@ -41,14 +41,14 @@ class Table():
     def create_table_device(self):
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS device (
-                uuid TEXT PRIMARY KEY,
+                uuid TEXT NOT NULL PRIMARY KEY,
                 name TEXT,
                 description TEXT,
                 model TEXT,
                 precision TEXT,
                 unit TEXT,
-                pin INTEGER,
-                driver TEXT,
+                pin INTEGER NOT NULL,
+                driver TEXT NOT NULL,
                 manufacturer TEXT,
                 gateway_id TEXT NOT NULL,
                 -- FOREIGN KEY (manufacturer_id) REFERENCES manufacturer (id),
@@ -59,7 +59,7 @@ class Table():
     def create_table_context_server(self):
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS context_server (
-                uuid TEXT PRIMARY KEY,
+                uuid TEXT NOT NULL PRIMARY KEY,
                 name TEXT,
                 ip TEXT NOT NULL,
                 port INTEGER NOT NULL,
@@ -71,7 +71,7 @@ class Table():
     def create_table_persistance(self):
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS persistance (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER NOT NULL PRIMARY KEY,
                 value INTEGER NOT NULL,
                 collect_date TEXT NOT NULL, 
                 publisher INTEGER NOT NULL,
@@ -83,7 +83,7 @@ class Table():
     def create_table_scheduler(self):
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS scheduler (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER NOT NULL PRIMARY KEY,
                 event TEXT NOT NULL,
                 second TEXT NOT NULL,
                 minute TEXT NOT NULL,
@@ -99,7 +99,7 @@ class Table():
     def create_table_action_rule(self):
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS action_rule (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER NOT NULL PRIMARY KEY,
                 command TEXT NOT NULL
             ); 
         """)
@@ -107,7 +107,7 @@ class Table():
     def create_table_rule(self):
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS rule (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER NOT NULL PRIMARY KEY,
                 name TEXT,
                 rule TEXT,
                 action_rule_id INTEGER,
