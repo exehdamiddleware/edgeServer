@@ -6,29 +6,23 @@ import threading
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
-class Scheduler(object):
+class Scheduler_Edge_Server(object):
 
     # event_treatment = None
 
-    # def __init__(self, object_event_treatment):
-    #     print("SCHEDULER")
-    #     self.event_treatment = object_event_treatment
-    #     # Instância um agendador no background
-    #     self.scheduler = BackgroundScheduler()
-    #     self.scheduler.start()
-
-    def __init__(self):
-        print("Scheduler")
+    def __init__(self, object_event_treatment):
+        print("SCHEDULER")
+        self.event_treatment = object_event_treatment
         # Instância um agendador no background
         self.scheduler = BackgroundScheduler()
         self.scheduler.start()
 
-    def add_object(self, object_event_treatment=None):
-        print("ADD Event")
-        # self.event_treatment = object_event_treatment
+    # def add_object(self, object_event_treatment=None):
+    #     # print("ADD Event")
+    #     self.event_treatment = object_event_treatment
 
     def add_job(self, jsonObject):   
-        print("jsonObject")
+        # print("jsonObject")
 
         if jsonObject['modo'] == 'cron':
             jsonObject['type'] = jsonObject['task']['type']
@@ -43,10 +37,10 @@ class Scheduler(object):
             print("Tarefa diferente do cron")
 
     def function(self, jsonObject):
-        print("Dispertando evento")
-        pass
-        # self.event_treatment.process_event(jsonObject)
-        
+        # print("Evento")
+        # pass
+        self.event_treatment.process_event(jsonObject)
+
     
 
     #'{"modo": "cron","task": {"type": "sensor", "id":"51651565641651"},"second":"*/5", "minute":"*", "hour":"*", "day":"*", "month":"*", "year":"*" }'

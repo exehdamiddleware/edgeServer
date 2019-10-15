@@ -2,7 +2,7 @@
 # from core.gathering import *
 import threading
 # import json
-# from device import *
+from device import *
 # from CRUD import *
 from process_configuration import *
 
@@ -39,8 +39,9 @@ class Event_Treatment(object):
         
         if jsonObject['type'] == "scheduler":
             print("SCHEDULER")
-            self.scheduler.add_job(jsonObject)  
             # self.process_scheduler_db.scheduler(jsonObject)
+            self.scheduler.add_job(jsonObject)  
+            self.process_scheduler_db.scheduler(jsonObject)
 
         # Coleta ou atua um determinado device
         elif jsonObject['type'] == "device":

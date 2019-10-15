@@ -36,11 +36,11 @@ class Process_Configuration(object):
             print(str(e))
 
     def save_scheduler(self, conf):
-        # print(gateway, devices)
+        # print(conf)
         # Chama o método do CRUD para salvar os dados
-        try:
-            self.crud.create_scheduler(event=conf['modo'],secondevent=conf['second'],minuteevent=conf['minute'],hourevent=conf['hour'],
-                dayevent=conf['day'],monthevent=conf['month'],yearevent=conf['year'],device_uuidevent=conf['task']['uuid'])
+        try:  # minute,hour,day,month,year,device_uuid
+            self.crud.create_scheduler(event=conf['modo'],second=conf['second'],minute=conf['minute'],hour=conf['hour'],
+                day=conf['day'],month=conf['month'],year=conf['year'],device_uuid=conf['task']['uuid'])
             print("Cadastro com sucesso do scheduler")
         except Exception as e:
             print("Erro ao salvar os dados do scheduler no DB")
@@ -54,7 +54,6 @@ class Process_Configuration(object):
         self.save_sensors(jsonObject['gateway'],jsonObject['sensors'])
 
     def scheduler(self, jsonObject):
-
         self.save_scheduler(jsonObject)
 
         

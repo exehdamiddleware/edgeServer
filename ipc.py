@@ -39,7 +39,6 @@ class IPC(object):
     # Envia uma publicação para o Servidor de Contexto
     def on_publish(self, topic, msg):
         self.client.publish(topic=topic, payload=msg, qos=0, retain=False)
-        
 
 class client_loop (Thread):
     def __init__(self,client):

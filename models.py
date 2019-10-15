@@ -1,7 +1,7 @@
 # models.py
 
 import peewee
-import threading
+# import threading
 
 # Criamos o banco de dados
 db = peewee.SqliteDatabase('edger_server.db')
@@ -79,51 +79,51 @@ class Rule(BaseModel):
 
 
 
-if __name__ == '__main__':
-    try:
-        Manufacturer.create_table()
-        print("Tabela 'Manufacturer' criada com sucesso!")
-    except peewee.OperationalError:
-        print("Tabela 'Manufacturer' ja existe!")
+# if __name__ == '__main__':
+#     try:
+#         Manufacturer.create_table()
+#         print("Tabela 'Manufacturer' criada com sucesso!")
+#     except peewee.OperationalError:
+#         print("Tabela 'Manufacturer' ja existe!")
 
-    try:
-        Gateway.create_table()
-        print("Tabela 'Gateway' criada com sucesso!")
-    except peewee.OperationalError:
-        print("Tabela 'Gateway' ja existe!")
+#     try:
+#         Gateway.create_table()
+#         print("Tabela 'Gateway' criada com sucesso!")
+#     except peewee.OperationalError:
+#         print("Tabela 'Gateway' ja existe!")
 
-    try:
-        Device.create_table()
-        print("Tabela 'Device' criada com sucesso!")
-    except peewee.OperationalError:
-        print("Tabela 'Device' ja existe!")
+#     try:
+#         Device.create_table()
+#         print("Tabela 'Device' criada com sucesso!")
+#     except peewee.OperationalError:
+#         print("Tabela 'Device' ja existe!")
 
-    try:
-        Context_Server.create_table()
-        print("Tabela 'Context Server' criada com sucesso!")
-    except peewee.OperationalError:
-        print("Tabela 'Context Server' ja existe!")
+#     try:
+#         Context_Server.create_table()
+#         print("Tabela 'Context Server' criada com sucesso!")
+#     except peewee.OperationalError:
+#         print("Tabela 'Context Server' ja existe!")
 
-    try:
-        Persistance.create_table()
-        print("Tabela 'Persistance' criada com sucesso!")
-    except peewee.OperationalError:
-        print("Tabela 'Persistance' ja existe!")
+#     try:
+#         Persistance.create_table()
+#         print("Tabela 'Persistance' criada com sucesso!")
+#     except peewee.OperationalError:
+#         print("Tabela 'Persistance' ja existe!")
 
-    try:
-        Scheduler.create_table()
-        print("Tabela 'Scheduler' criada com sucesso!")
-    except peewee.OperationalError:
-        print("Tabela 'Scheduler' ja existe!")
+#     try:
+#         Scheduler.create_table()
+#         print("Tabela 'Scheduler' criada com sucesso!")
+#     except peewee.OperationalError:
+#         print("Tabela 'Scheduler' ja existe!")
 
-    try:
-        Action_Rule.create_table()
-        print("Tabela 'Action_Rule' criada com sucesso!")
-    except peewee.OperationalError:
-        print("Tabela 'Action_Rule' ja existe!")
+#     try:
+#         Action_Rule.create_table()
+#         print("Tabela 'Action_Rule' criada com sucesso!")
+#     except peewee.OperationalError:
+#         print("Tabela 'Action_Rule' ja existe!")
 
-    try:
-        Rule.create_table()
-        print("Tabela 'Rule' criada com sucesso!")
-    except peewee.OperationalError:
-        print("Tabela 'Rule' ja existe!")
+#     try:
+#         Rule.create_table()
+#         print("Tabela 'Rule' criada com sucesso!")
+#     except peewee.OperationalError:
+#         print("Tabela 'Rule' ja existe!")
