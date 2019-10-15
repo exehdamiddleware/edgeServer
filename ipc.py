@@ -8,7 +8,7 @@ from event_treatment import *
 
 class IPC(object):
     """docstring for IPC"""
-    event_treatment = None
+    # event_treatment = None
 
     def __init__(self, event_treatment, username, password, host, port):
         self.event_treatment = event_treatment
@@ -31,6 +31,8 @@ class IPC(object):
 
     # Recebe a mensagem do broker e envia para o processamento de eventos para tratar a mensagem
     def on_message(self, mosq, obj, msg):
+        # print(json.loads(msg.payload.decode("utf-8")))
+
         self.event_treatment.process_event(json.loads(msg.payload.decode("utf-8")))
         
     # def on_publish(self, mosq, obj, mid):

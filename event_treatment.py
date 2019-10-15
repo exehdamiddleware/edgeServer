@@ -2,34 +2,45 @@
 # from core.gathering import *
 import threading
 # import json
-from device import *
+# from device import *
+# from CRUD import *
+from process_configuration import *
 
 class Event_Treatment(object):
     # core = None
-    ipc = None
-    scheduler = None
-    #instância do objeto e inicia o escalonador
-    def __init__(self, scheduler):
-        self.scheduler = scheduler
-        #threading.Thread.__init__(self)
-        pass
 
-    def add_object(self, object_ipc):
+    #instância do objeto e inicia o escalonador
+    def __init__(self):
+        print("EVENT")
+        # self.scheduler = scheduler
+        #threading.Thread.__init__(self)
+        self.process_configuration_db = Process_Configuration()
+        self.process_scheduler_db = Process_Configuration()      
+
+    def add_object_scheduler(self, object_scheduler):
+        # print("ADD Scheduler")
+        self.scheduler = object_scheduler
+
+    def add_object_ipc(self, object_ipc):
+        print("ADD IPC")
         self.ipc = object_ipc
 
-    def process_event(self, jsonObject):
-        # Tipos de eventos:
-            # - Agendamento de device
-            # - Coleta ou atuação de um device
-            # - Processamento de uma regra agendada
-            # - Anúncio de recursos
-            # - Recursos recebidos pelo GW
-            # - Publicação
-            # - Gathering - Action and collect
 
+    # Tipos de eventos:
+    # - Agendamento de device
+    # - Coleta ou atuação de um device
+    # - Processamento de uma regra agendada
+    # - Anúncio de recursos
+    # - Recursos recebidos pelo GW
+    # - Publicação
+    # - Gathering - Action and collect
+
+    def process_event(self, jsonObject):
+        
         if jsonObject['type'] == "scheduler":
-            print("Adicionando agendamento")
+            print("SCHEDULER")
             self.scheduler.add_job(jsonObject)  
+            # self.process_scheduler_db.scheduler(jsonObject)
 
         # Coleta ou atua um determinado device
         elif jsonObject['type'] == "device":
@@ -42,13 +53,9 @@ class Event_Treatment(object):
 
         # Recebe os dados de configuracao do GW, armazenando e enviando para o Servidor de Contexto
         elif jsonObject['type'] == "configuration":
-            # Como diferenciar o tipo configurações do GW e ES ?
 
-            # Salvar os dados no DB
+            self.process_configuration_db.configuration(jsonObject)
 
-            # Envia os dados para o servidor de contexto   ---->>> Arrumar
-            # self.ipc.on_publish("teste","mensagem")
-            pass
 
         # Envia os dados para o Servidor de Contexto
         elif jsonObject['type'] == "collect":
@@ -58,6 +65,8 @@ class Event_Treatment(object):
             #from_gw_to_Edge_Server
             #receive_from_gw
             pass
+
+
 
         else:
             print(jsonObject)

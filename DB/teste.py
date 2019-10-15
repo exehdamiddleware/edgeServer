@@ -1,12 +1,12 @@
-from DB import *
+from DB.DB import *
 
 db = DB()
 
 
 # db.insert_manufacturer(id_generic=1,name="MF_1", address=None, phone=None,url=None,city=None,state=None,country=None)
-print(db.read_all_manufacturer())
-db.delete_manufacturer(id_generic=1)
-print(db.read_all_manufacturer())
+# print(db.read_all_manufacturer())
+# db.delete_manufacturer(id_generic=1)
+# print(db.read_all_manufacturer())
 
 # db.insert_gateway(uuid="76677c4c-a2b0-4886-8035-73bcb2a922b8",name="GW_1",status=None,manufacturer_id=None)
 
