@@ -26,7 +26,7 @@ msg = '{"type": "scheduler","modo": "cron","task": {"type": "device", "uuid":"a0
 
 # Dados do gateway
 # topic = "GW_"+gw_uuid
-topic = "GW"
+topic = "ES_76a69636-6495-4eec-be4f-b40fb2fb3b22"
 
 
 pub = Publisher("127.0.0.1", 1883)

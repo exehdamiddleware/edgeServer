@@ -8,21 +8,16 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 class Scheduler_Edge_Server(object):
 
-    # event_treatment = None
-
     def __init__(self, object_event_treatment):
         print("SCHEDULER")
         self.event_treatment = object_event_treatment
+
         # Instância um agendador no background
         self.scheduler = BackgroundScheduler()
         self.scheduler.start()
 
-    # def add_object(self, object_event_treatment=None):
-    #     # print("ADD Event")
-    #     self.event_treatment = object_event_treatment
-
+    # Adiciona no CRON o agendamento de um device, salvando na função os dados desse device.
     def add_job(self, jsonObject):   
-        # print("jsonObject")
 
         if jsonObject['modo'] == 'cron':
             jsonObject['type'] = jsonObject['task']['type']
@@ -36,12 +31,25 @@ class Scheduler_Edge_Server(object):
         else:
             print("Tarefa diferente do cron")
 
+    # Função é chamada quando o scheduler é ativado, passando os dados do device
     def function(self, jsonObject):
-        # print("Evento")
-        # pass
         self.event_treatment.process_event(jsonObject)
 
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     #'{"modo": "cron","task": {"type": "sensor", "id":"51651565641651"},"second":"*/5", "minute":"*", "hour":"*", "day":"*", "month":"*", "year":"*" }'
 

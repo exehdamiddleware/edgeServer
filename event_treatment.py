@@ -8,23 +8,28 @@ from process_configuration import *
 
 class Event_Treatment(object):
     # core = None
-
+    device = None
+    ipc = None
     #instância do objeto e inicia o escalonador
     def __init__(self):
         print("EVENT")
         # self.scheduler = scheduler
         #threading.Thread.__init__(self)
         self.process_configuration_db = Process_Configuration()
-        self.process_scheduler_db = Process_Configuration()      
-
+        self.process_scheduler_db = Process_Configuration()   
+         
+    
     def add_object_scheduler(self, object_scheduler):
         # print("ADD Scheduler")
+        # self.device = Device()
+        # self.device.process("JUCA")
         self.scheduler = object_scheduler
 
     def add_object_ipc(self, object_ipc):
         print("ADD IPC")
+        # self.device = Device()
         self.ipc = object_ipc
-
+        self.device = Device_Process(self.ipc)
 
     # Tipos de eventos:
     # - Agendamento de device
@@ -35,18 +40,21 @@ class Event_Treatment(object):
     # - Publicação
     # - Gathering - Action and collect
 
-    def process_event(self, jsonObject):
+    def process_event(self, jsonObject, topic=None):
         
         if jsonObject['type'] == "scheduler":
             print("SCHEDULER")
-            # self.process_scheduler_db.scheduler(jsonObject)
             self.scheduler.add_job(jsonObject)  
             self.process_scheduler_db.scheduler(jsonObject)
 
         # Coleta ou atua um determinado device
         elif jsonObject['type'] == "device":
             print("Device event")
-            device = Device(self.ipc, jsonObject['task']['uuid'])
+            try:
+                uuid_device = jsonObject['task']['uuid']
+                self.device.process(uuid_device)
+            except Exception as e:
+                print(str(e))
 
         # Quando uma regra é chamada para processar os dados que estão no DB
         elif jsonObject['type'] == "rule":
@@ -57,17 +65,12 @@ class Event_Treatment(object):
 
             self.process_configuration_db.configuration(jsonObject)
 
-
         # Envia os dados para o Servidor de Contexto
         elif jsonObject['type'] == "collect":
-
-            # Como diferenciar o tipo de publicação do GW e ES ?
-
-            #from_gw_to_Edge_Server
-            #receive_from_gw
-            pass
-
-
+            try:
+                self.device.process(jsonObject, topic)
+            except Exception as e:
+                print(str(e))
 
         else:
             print(jsonObject)
