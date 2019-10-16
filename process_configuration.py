@@ -54,6 +54,7 @@ class Process_Configuration(object):
         self.save_sensors(jsonObject['gateway'],jsonObject['sensors'])
 
     def scheduler(self, jsonObject):
+        print("SCHEDULÇERRRRRRRR")
         self.save_scheduler(jsonObject)
 
         

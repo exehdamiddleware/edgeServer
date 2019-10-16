@@ -1,8 +1,9 @@
-# import json
+import json
 import threading
 # import time
 # from core.event_treatment import *
 # import random
+from CRUD import *
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
@@ -15,6 +16,8 @@ class Scheduler_Edge_Server(object):
         # Instância um agendador no background
         self.scheduler = BackgroundScheduler()
         self.scheduler.start()
+
+        self.check_scheduler_reactivave()
 
     # Adiciona no CRON o agendamento de um device, salvando na função os dados desse device.
     def add_job(self, jsonObject):   
@@ -35,7 +38,57 @@ class Scheduler_Edge_Server(object):
     def function(self, jsonObject):
         self.event_treatment.process_event(jsonObject)
 
-    
+    def check_scheduler_reactivave(self):
+        crud = CRUD()
+        schedulers = crud.read_all_scheduler()
+
+        # json = {}
+        # Formata o JSON para enviar a mensagem ao método add_job, agendando as tarefas no DB 
+        for data in schedulers:
+            # print(data.event,data.device_uuid,data.second,data.minute,data.hour,data.day,data.month,data.year)
+            json_data = {
+                'modo': str(data.event),
+                'second': str(data.second),
+                'minute': str(data.minute),
+                'hour': str(data.hour),
+                'day': str(data.day),
+                'month': str(data.month),
+                'year': str(data.year)
+            }
+
+            json_data = json.dumps(json_data)
+            json_data = json.loads(json_data)
+            json_data['task'] = {} 
+            json_data['task']['type'] = 'device' 
+            json_data['task']['uuid'] = str(data.device_uuid)
+            json_data = json.dumps(json_data)
+            json_data = json.loads(json_data)
+            
+            self.add_job(json_data)
+        
+
+
+
+        # try:
+        #     #print("check_scheduler_reactivave   TRY")
+        #     jsonSchedules = self.core.API_access("get", "schedules").json()
+        #     print(jsonSchedules)
+
+        #     for schedule in jsonSchedules:
+        #         schedule['modo'] = 'cron'
+        #         print(schedule)
+        #         self.add_job(schedule)
+
+        # except Exception as inst:
+        #     #print("check_scheduler_reactivave   EXCEPTION")
+        #     #print(type(inst))
+        #     time.sleep(10)
+        #     self.check_scheduler_reactivave()
+
+        # except:
+        #     print("PODE SER ERRO DE ACESSO POR CAUSA DE TOKEN INVALIDO")
+
+        #print("check_scheduler_reactivave2")
 
 
 

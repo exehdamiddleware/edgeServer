@@ -113,11 +113,12 @@ class CRUD(object):
 
 
     def create_scheduler(self,event,second,minute,hour,day,month,year,device_uuid):
-        print(event,second,minute,hour,day,month,year,device_uuid)
+        # print(event,second,minute,hour,day,month,year,device_uuid)
 
-        # scheduler = Scheduler.create(event=event,second=second,minute=minute,hour=hour,day=day,month=month,year=year,device_uuid=device_uuid)
+        scheduler = Scheduler.create(event=event,second=second,minute=minute,hour=hour,day=day,month=month,year=year,device_uuid=device_uuid)
         
     def read_all_scheduler(self):
+        # print("=======================")
             
         scheduler = Scheduler.select()
         return scheduler

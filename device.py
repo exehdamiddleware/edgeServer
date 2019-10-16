@@ -10,10 +10,12 @@ class Device_Process(object):
     # Realiza uma busca no DB realacionando o sensor com o GW em busca do uuid
     # Topico de publisher GW_ + (uuid do GW)
     def process(self, data, topic=None):
-        # print(topic)
+        
+        # Dado é enviado para o CS com o topico recebido 
         if topic:
             self.ipc.on_publish_CS(topic, data)
 
+        # É feita uma "requisição" para um determinado device
         else:
             #Acesso ao DB em busca do uuid do GW
             uuid_GW = "3aa027bd-4afc-461c-b353-c2535008f4ce"
