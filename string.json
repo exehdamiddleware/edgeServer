@@ -1,0 +1,27 @@
+{ 
+  	"type": "conf",  
+  	"version": 1,  	
+  	"network":{
+    	"name": "LUPS-2",
+      	"password": "Lups@2019"
+  	},
+  	"edge_server":{
+      "name": "ES1",
+      "uuid": "76a69636-6495-4eec-be4f-b40fb2fb3b22"
+    },
+  	"broker_mqtt_ES":{
+      	"ip": "127.0.0.1",
+      	"port": 1883,
+      	"user": "middleware",
+      	"password": "exehda",
+      	"topic": "ifarming"
+    },
+    "broker_mqtt_CS":{
+      	"ip": "200.132.96.11",
+      	"port": 1883,
+      	"user": "middleware",
+      	"password": "exehda",
+      	"topic": "ifarming"
+    },
+    "topics": ["LUPS","UFPEL","UCPEL"]
+}

@@ -12,23 +12,28 @@ from scheduler import *
 from event_treatment import *
 from ipc import *
 
-uuid_ES = "76a69636-6495-4eec-be4f-b40fb2fb3b22"
+from read_json import *
+
+json_read = Read_JSON()
+json = json_read.read("string")
+
+name_ES = json['edge_server']['name']
+uuid_ES = json['edge_server']['uuid']
 
 # Informações de acesso ao Broker no Servidor de Contexto
-username_CS = "middleware"
-password_CS = "exehda"
-host_CS = "200.132.96.11"
-# host_CS = "127.0.0.1"
-port_CS = 1883
+username_CS = json['broker_mqtt_CS']['user']
+password_CS = json['broker_mqtt_CS']['password']
+host_CS = json['broker_mqtt_CS']['ip']
+port_CS = json['broker_mqtt_CS']['port']
 
 # Informações de acesso ao Broker no Servidor de Borda
-username_ES = "middleware"
-password_ES = "exehda"
-host_ES = "127.0.0.1"
-port_ES = 1883
+username_ES = json['broker_mqtt_ES']['user']
+password_ES = json['broker_mqtt_ES']['password']
+host_ES = json['broker_mqtt_ES']['ip']
+port_ES = json['broker_mqtt_ES']['port']
 
 # Lista de tópicos
-topics = ["LUPS","EMPRAPA","SANEP"]
+topics = json['topics']
 topics.append("ES_"+uuid_ES)
 
 # mosquitto_sub -t "GW_3aa027bd-4afc-461c-b353-c2535008f4ce" -u "middleware" -P "exehda" -h 127.0.0.1 -p 1883
