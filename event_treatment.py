@@ -11,12 +11,14 @@ class Event_Treatment(object):
     device = None
     ipc = None
     #instância do objeto e inicia o escalonador
-    def __init__(self):
+    def __init__(self, configuration):
         print("EVENT")
         # self.scheduler = scheduler
         #threading.Thread.__init__(self)
         self.process_configuration_db = Process_Configuration()
         self.process_scheduler_db = Process_Configuration()   
+
+        self.configuration = configuration
          
     
     def add_object_scheduler(self, object_scheduler):
@@ -63,7 +65,12 @@ class Event_Treatment(object):
         # Recebe os dados de configuracao do GW, armazenando e enviando para o Servidor de Contexto
         elif jsonObject['type'] == "configuration":
 
-            self.process_configuration_db.configuration(jsonObject)
+            # self.process_configuration_db.configuration(jsonObject)
+
+            try:
+                self.device.process_configuration(jsonObject, topic, self.configuration)
+            except Exception as e:
+                print(str(e))
 
         # Envia os dados para o Servidor de Contexto
         elif jsonObject['type'] == "collect":

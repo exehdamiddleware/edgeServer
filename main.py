@@ -44,7 +44,7 @@ topics.append("ES_"+uuid_ES)
 #	- Event_treatment
 #	- ipc   <----- Nesse componente é compartilhado os dois objetos criado acima
 
-event_treatment = Event_Treatment()
+event_treatment = Event_Treatment(json)
 scheduler = Scheduler_Edge_Server(event_treatment)
 event_treatment.add_object_scheduler(scheduler)
 

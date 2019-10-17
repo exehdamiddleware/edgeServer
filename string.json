@@ -17,11 +17,11 @@
       	"topic": "ifarming"
     },
     "broker_mqtt_CS":{
-      	"ip": "200.132.96.11",
+      	"ip": "200.132.96.10",
       	"port": 1883,
       	"user": "middleware",
       	"password": "exehda",
       	"topic": "ifarming"
     },
-    "topics": ["LUPS","UFPEL","UCPEL"]
+    "topics": ["contextserver"]
 }
