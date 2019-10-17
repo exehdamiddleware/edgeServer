@@ -65,8 +65,10 @@ class Event_Treatment(object):
         # Recebe os dados de configuracao do GW, armazenando e enviando para o Servidor de Contexto
         elif jsonObject['type'] == "configuration":
 
-            # self.process_configuration_db.configuration(jsonObject)
+            # Salva os dados de configuração do DB
+            self.process_configuration_db.configuration(jsonObject)
 
+            # Envia os dados de configuração para o Servidor de Contexto 
             try:
                 self.device.process_configuration(jsonObject, topic, self.configuration)
             except Exception as e:

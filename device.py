@@ -14,7 +14,7 @@ class Device_Process(object):
         
         # Dado é enviado para o CS com o topico recebido 
         if topic:
-
+            
             date_now = datetime.datetime.now()
             date_str = date_now.strftime("%Y-%m-%d %H:%M:%S")
   
@@ -35,7 +35,7 @@ class Device_Process(object):
             msg = json.dumps(msg)
 
             # Envia mensagem para o topico especifico, enviando para GW em questão
-            self.ipc.on_publish_CS(topic, msg)
+            self.ipc.on_publish_ES(topic, msg)
 
     def process_configuration(self, data, topic, configuration):
 

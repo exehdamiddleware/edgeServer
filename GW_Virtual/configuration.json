@@ -1,61 +1,53 @@
 { 
-  "type": "conf",  
-  
-  "version": 1,
-  
-  "network":
-    {
-      "name": "LUPS-2",
-      "password": "Lups@2019"
-    }
-    ,
-  "gateway":
-    {
-      "name": "GW1",
-      "uuid": "3aa027bd-4afc-461c-b353-c2535008f4ce"
+    "type": "conf",  
+    "version": 1,
+    "network":{
+        "name": "LUPS-2",
+        "password": "Lups@2019"
     },
-  "broker_mqtt": 
-    {
-      "ip": "200.132.96.11",
-      "port": 1883,
-      "user": "middleware",
-      "password": "exehda",
-      "topic": "ifarming",
-      
+    "gateway":{
+        "name": "GW1",
+        "uuid": "3aa027bd-4afc-461c-b353-c2535008f4ce"
     },
-  "sensors": [
-    { 
-      "name": "sensor_1",
-      "uuid": "a08042cf-8610-4bd4-8bea-6320ce7c613b",
-      "driver": "driver_temp",
-      "pin" : 19,
-      "manufacturer": "",
-      "type": "",
-      "status": true
-    },{
-      "name": "sensor_2",
-      "uuid": "b08042cf-8610-4bd4-8bea-6320ce7c613b",
-      "driver": "driver_temp",
-      "pin" : 21,
-      "manufacturer": "",
-      "type": "",
-      "status": true
-    },{
-      "name": "sensor_3",
-      "uuid": "c08042cf-8610-4bd4-8bea-6320ce7c613b",
-      "driver": "driver_ldr",
-      "pin" : 32,
-      "manufacturer": "",
-      "type": "",
-      "status": true
-    },{
-      "name": "reset",
-      "uuid": "d08042cf-8610-4bd4-8bea-6320ce7c613b",
-      "driver": "reset",
-      "pin" : 32,
-      "manufacturer": "",
-      "type": "",
-      "status": true
+    "broker_mqtt":{
+        "ip": "127.0.0.1",
+        "port": 1883,
+        "user": "middleware",
+        "password": "exehda",
+        "topic": "contextserver"
+    },
+    "sensors": [{ 
+        "name": "sensor_1",
+        "uuid": "a08042cf-8610-4bd4-8bea-6320ce7c613b",
+        "driver": "driver_temp",
+        "pin" : 19,
+        "manufacturer": "",
+        "type": "",
+        "status": true
+      },{
+        "name": "sensor_2",
+        "uuid": "b08042cf-8610-4bd4-8bea-6320ce7c613b",
+        "driver": "driver_temp",
+        "pin" : 21,
+        "manufacturer": "",
+        "type": "",
+        "status": true
+      },{
+        "name": "sensor_3",
+        "uuid": "c08042cf-8610-4bd4-8bea-6320ce7c613b",
+        "driver": "driver_ldr",
+        "pin" : 32,
+        "manufacturer": "",
+        "type": "",
+        "status": true
+      },{
+        "name": "reset",
+        "uuid": "d08042cf-8610-4bd4-8bea-6320ce7c613b",
+        "driver": "reset",
+        "pin" : 32,
+        "manufacturer": "",
+        "type": "",
+        "status": true
     }
   ]
 }
