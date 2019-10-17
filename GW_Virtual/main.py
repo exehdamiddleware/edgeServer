@@ -1,11 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# import threading
-# import _thread
 from subscriber import *
-# from publisher import *
-# import time
 import json
 from read_json import *
 
@@ -28,7 +24,6 @@ topic_ES = json['broker_mqtt']['topic']
 
 # Cria o objeto para a conexão com o Servidor de Borda
 subscriber = Subscriber(username_ES,password_ES,host_ES,port_ES,topic_ES,sensors,gateway)
-# subscriber.add()
 
 
 # mosquitto_pub -t "GW_3aa027bd-4afc-461c-b353-c2535008f4ce" -u "middleware" -P "exehda" -h 127.0.0.1 -p 1883 -m '{"uuid": "a08042cf-8610-4bd4-8bea-6320ce7c613b"}'

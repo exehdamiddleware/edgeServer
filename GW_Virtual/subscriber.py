@@ -8,7 +8,7 @@ import json
 import datetime
 
 class Subscriber(object):
-    """docstring for subscriber."""
+    
     def __init__(self,username_ES,password_ES,host_ES,port_ES,topic_ES,sensors,gateway):
 
         self.client = paho.Client()
