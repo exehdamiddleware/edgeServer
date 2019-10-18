@@ -31,7 +31,7 @@ class Event_Treatment(object):
         print("ADD IPC")
         # self.device = Device()
         self.ipc = object_ipc
-        self.device = Device_Process(self.ipc)
+        self.device = Device_Process(self.ipc, self.process_configuration_db)
 
     # Tipos de eventos:
     # - Agendamento de device
@@ -75,7 +75,9 @@ class Event_Treatment(object):
                 print(str(e))
 
         # Envia os dados para o Servidor de Contexto
-        elif jsonObject['type'] == "collect":
+        # elif jsonObject['type'] == "collect":
+        elif jsonObject['type'] == "pub" or jsonObject['type'] == "collect":
+
             try:
                 self.device.process(jsonObject, topic)
             except Exception as e:

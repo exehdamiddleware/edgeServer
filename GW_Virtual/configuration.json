@@ -7,7 +7,7 @@
     },
     "gateway":{
         "name": "GW1",
-        "uuid": "3aa027bd-4afc-461c-b353-c2535008f4ce"
+        "uuid": "4aa027bd-4afc-461c-b353-c2535008f4ce"
     },
     "broker_mqtt":{
         "ip": "127.0.0.1",

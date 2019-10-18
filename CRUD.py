@@ -58,6 +58,10 @@ class CRUD(object):
         devices = Device.select()
         return devices
 
+    def read_device(self, uuid):
+        device = Device.get(Device.uuid == uuid)
+        return device
+
     def update_device(self, id):
         device = Device.get(Device.id==id)
 

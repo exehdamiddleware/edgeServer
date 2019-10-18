@@ -5,8 +5,9 @@ import datetime
 class Device_Process(object):
     ipc = None
 
-    def __init__(self, ipc):
+    def __init__(self, ipc, process_configuration_db):
         self.ipc = ipc
+        self.process_configuration_db = process_configuration_db
 
     # Realiza uma busca no DB realacionando o sensor com o GW em busca do uuid
     # Topico de publisher GW_ + (uuid do GW)
@@ -27,10 +28,11 @@ class Device_Process(object):
         # É feita uma "requisição" para um determinado device
         else:
             #Acesso ao DB em busca do uuid do GW
-            uuid_GW = "3aa027bd-4afc-461c-b353-c2535008f4ce"
+            sensor = self.process_configuration_db.get_gateway(data)
 
             # Topic de publicação do gateway e mensagem a ser enviada
-            topic = "GW_" + uuid_GW
+            topic = "GW_" + str(sensor.gateway_id)
+            print(topic)
             msg = {'uuid': data}
             msg = json.dumps(msg)
 

@@ -26,14 +26,14 @@ class Process_Configuration(object):
     def save_sensors(self, gateway, devices):
         # print(gateway, devices)
         # Chama o método do CRUD para salvar os dados
-        try:
-            for device in devices:
+        for device in devices:
+            try:
                 #crud.create_device(uuid=device['uuid'],name=device['name'],description=device['description'],model=device['model'],precision=device[''],unit=device[''],pin=device['pin'],driver=device['driver'],manufacturer_id=device[''],gateway_id=device[''])
                 self.crud.create_device(uuid=device['uuid'],name=device['name'],pin=device['pin'],driver=device['driver'],gateway_id=gateway['uuid'])
                 print("Cadastro com sucesso dos sensores")
-        except Exception as e:
-            print("Erro ao salvar os dados dos sensores no DB")
-            print(str(e))
+            except Exception as e:
+                print("Erro ao salvar os dados dos sensores no DB")
+                print(str(e))
 
     def save_scheduler(self, conf):
         # print(conf)
@@ -46,6 +46,10 @@ class Process_Configuration(object):
             print("Erro ao salvar os dados do scheduler no DB")
             print(str(e))
 
+    def get_gateway(self, uuid_sensor):
+        data = self.crud.read_device(uuid_sensor)
+
+        return data
 
     def configuration(self, jsonObject):
         # print(jsonObject)
