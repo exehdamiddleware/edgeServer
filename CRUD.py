@@ -1,6 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-# import threading
-#from models import Manufacturer, Gateway, Device, Context_Server, Persistance, Scheduler, Action_Rule, Rule
 from models import *
 
 class CRUD(object):

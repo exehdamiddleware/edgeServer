@@ -1,4 +1,5 @@
-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import paho.mqtt.client as paho
 import json
@@ -8,7 +9,6 @@ from event_treatment import *
 
 class IPC(object):
     """docstring for IPC"""
-    # event_treatment = None
 
     def __init__(self, event_treatment, username_CS, password_CS, host_CS, port_CS, username_ES, password_ES, host_ES, port_ES, topics):
         self.event_treatment = event_treatment
@@ -85,5 +85,4 @@ class client_loop (Thread):
         self.client = client
 
     def run(self):
-        self.client.loop_forever()
-            
+        self.client.loop_forever()    

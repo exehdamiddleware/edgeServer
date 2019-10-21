@@ -1,8 +1,8 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import json
 import threading
-# import time
-# from core.event_treatment import *
-# import random
 from CRUD import *
 from apscheduler.schedulers.background import BackgroundScheduler
 

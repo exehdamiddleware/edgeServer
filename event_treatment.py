@@ -1,13 +1,11 @@
-# from core.publisher_context import *
-# from core.gathering import *
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import threading
-# import json
 from device import *
-# from CRUD import *
 from process_configuration import *
 
 class Event_Treatment(object):
-    # core = None
     device = None
     ipc = None
     #instância do objeto e inicia o escalonador
@@ -22,16 +20,15 @@ class Event_Treatment(object):
          
     
     def add_object_scheduler(self, object_scheduler):
-        # print("ADD Scheduler")
-        # self.device = Device()
-        # self.device.process("JUCA")
         self.scheduler = object_scheduler
 
     def add_object_ipc(self, object_ipc):
         print("ADD IPC")
-        # self.device = Device()
-        self.ipc = object_ipc
-        self.device = Device_Process(self.ipc, self.process_configuration_db)
+        try:
+            self.ipc = object_ipc
+            self.device = Device_Process(self.ipc, self.process_configuration_db)
+        except Exception as e:
+            print(str(e))
 
     # Tipos de eventos:
     # - Agendamento de device
@@ -43,46 +40,53 @@ class Event_Treatment(object):
     # - Gathering - Action and collect
 
     def process_event(self, jsonObject, topic=None):
-        
-        if jsonObject['type'] == "scheduler":
-            print("SCHEDULER")
-            self.scheduler.add_job(jsonObject)  
-            self.process_scheduler_db.scheduler(jsonObject)
 
-        # Coleta ou atua um determinado device
-        elif jsonObject['type'] == "device":
-            print("Device event")
-            try:
-                uuid_device = jsonObject['task']['uuid']
-                self.device.process(uuid_device)
-            except Exception as e:
-                print(str(e))
+        try:
+            if jsonObject['type'] == "scheduler":
+                print("SCHEDULER")
+                try:
+                    self.scheduler.add_job(jsonObject)  
+                    self.process_scheduler_db.scheduler(jsonObject)
+                except Exception as e:
+                    print(str(e))
 
-        # Quando uma regra é chamada para processar os dados que estão no DB
-        elif jsonObject['type'] == "rule":
-            print("Rule event")
+            # Coleta ou atua um determinado device
+            elif jsonObject['type'] == "device":
+                print("Device event")
+                try:
+                    uuid_device = jsonObject['task']['uuid']
+                    self.device.process(uuid_device)
+                except Exception as e:
+                    print(str(e))
 
-        # Recebe os dados de configuracao do GW, armazenando e enviando para o Servidor de Contexto
-        elif jsonObject['type'] == "configuration":
+            # Quando uma regra é chamada para processar os dados que estão no DB
+            elif jsonObject['type'] == "rule":
+                print("Rule event")
 
-            # Salva os dados de configuração do DB
-            self.process_configuration_db.configuration(jsonObject)
+            # Recebe os dados de configuracao do GW, armazenando e enviando para o Servidor de Contexto
+            elif jsonObject['type'] == "configuration":
 
-            # Envia os dados de configuração para o Servidor de Contexto 
-            try:
-                self.device.process_configuration(jsonObject, topic, self.configuration)
-            except Exception as e:
-                print(str(e))
+                # Salva os dados de configuração do DB
+                self.process_configuration_db.configuration(jsonObject)
 
-        # Envia os dados para o Servidor de Contexto
-        # elif jsonObject['type'] == "collect":
-        elif jsonObject['type'] == "pub" or jsonObject['type'] == "collect":
+                # Envia os dados de configuração para o Servidor de Contexto 
+                try:
+                    self.device.process_configuration(jsonObject, topic, self.configuration)
+                except Exception as e:
+                    print(str(e))
 
-            try:
-                self.device.process(jsonObject, topic)
-            except Exception as e:
-                print(str(e))
+            # Envia os dados para o Servidor de Contexto
+            elif jsonObject['type'] == "pub" or jsonObject['type'] == "collect":
 
-        else:
-            print(jsonObject)
-            print("Unknown event")
+                try:
+                    self.device.process(jsonObject, topic)
+                except Exception as e:
+                    print(str(e))
+
+            else:
+                print(jsonObject)
+                print("Unknown event")
+
+        except Exception as e:
+            print("Event Process")
+            print(str(e))
