@@ -37,10 +37,17 @@ class CRUD(object):
         gateways = Gateway.select()
         return gateways
 
-    def update_gateway(self, id):
-        gateway = Gateway.get(Gateway.id==id)
+    def read_gateway(self, uuid):
 
+        gateway = Gateway.get(Gateway.uuid==uuid)
+        return gateway
+
+    def update_gateway(self,uuid,name,status=None,manufacturer_id=None):
+        gateway = Gateway.get(Gateway.uuid==uuid)
+
+        gateway.name = name
         gateway.status = True
+        gateway.manufacturer_id = manufacturer_id
         gateway.save()
 
     def delete_gateway(self):
@@ -59,13 +66,25 @@ class CRUD(object):
         return devices
 
     def read_device(self, uuid):
+
         device = Device.get(Device.uuid == uuid)
         return device
 
-    def update_device(self, id):
-        device = Device.get(Device.id==id)
+    def update_device(self,uuid,name=None,description=None,model=None,precision=None,unit=None,pin=None,driver=None,manufacturer_id=None,gateway_id=None):
 
-        device.status = True
+        device = Device.get(Device.uuid == uuid)
+        
+        device.uuid = uuid
+        device.name = name
+        device.description = description
+        device.model = model
+        device.precision = precision
+        device.unit = unit
+        device.pin = pin
+        device.driver = driver
+        device.manufacturer_id = manufacturer_id
+        device.gateway_id = gateway_id
+     
         device.save()
 
     def delete_device(self):

@@ -16,24 +16,47 @@ class Process_Configuration(object):
         
     def save_gateway(self, gateway):
         # Chama o método do CRUD para salvar os dados
-        try: # create_gateway(self,uuid,name,status,manufacturer_id)
-            self.crud.create_gateway(uuid=gateway['uuid'],name=gateway['name'])
-            print("Cadastro com sucesso do gateway")
+        try:
+            gateway_db = self.crud.read_gateway(uuid=gateway['uuid'])
+
+            if gateway_db:
+                try:
+                    self.crud.update_gateway(uuid=gateway['uuid'],name=gateway['name'])
+                    print("Update com sucesso do gateway")
+                except Exception as e:
+                    print("Erro ao realizar o update do gateway no DB")
+                    print(str(e))
+
+            else:
+                try:
+                    self.crud.create_gateway(uuid=gateway['uuid'],name=gateway['name'])
+                    print("Cadastro com sucesso do gateway")
+                except Exception as e:
+                    print("Erro ao salvar os dados do gateway no DB")
+                    print(str(e))
         except Exception as e:
-            print("Erro ao salvar os dados do gateway no DB")
-            print(str(e))
+                    print(str(e))
     
     def save_sensors(self, gateway, devices):
         # Chama o método do CRUD para salvar os dados
         try:
             for device in devices:
-                try:
-                    #crud.create_device(uuid=device['uuid'],name=device['name'],description=device['description'],model=device['model'],precision=device[''],unit=device[''],pin=device['pin'],driver=device['driver'],manufacturer_id=device[''],gateway_id=device[''])
-                    self.crud.create_device(uuid=device['uuid'],name=device['name'],pin=device['pin'],driver=device['driver'],gateway_id=gateway['uuid'])
-                    print("Cadastro com sucesso dos sensores")
-                except Exception as e:
-                    print("Erro ao salvar os dados dos sensores no DB")
-                    print(str(e))
+                device_db = self.crud.read_device(uuid=device['uuid'])
+
+                if device_db:
+                    try:
+                        self.crud.update_device(uuid=device['uuid'],name=device['name'],pin=device['pin'],driver=device['driver'],gateway_id=gateway['uuid'])
+                        print("Update com sucesso dos sensores")
+                    except Exception as e:
+                        print("Erro ao ealizar o update dos sensores no DB")
+                        print(str(e))
+                else:
+                    try:
+                        self.crud.create_device(uuid=device['uuid'],name=device['name'],pin=device['pin'],driver=device['driver'],gateway_id=gateway['uuid'])
+                        print("Cadastro com sucesso dos sensores")
+                    except Exception as e:
+                        print("Erro ao salvar os dados dos sensores no DB")
+                        print(str(e))
         except Exception as e:
                     print(str(e))
 
