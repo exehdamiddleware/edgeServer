@@ -49,11 +49,11 @@ class Device_Process(object):
         try:
             data["edge"] = {}
             data["edge"]["uuid"] = configuration['edge_server']['uuid']
-            data["edge"]["username"] = configuration['broker_mqtt_ES']['user']
-            data["edge"]["password"] = configuration['broker_mqtt_CS']['password']
-            data["edge"]["ip"] = configuration['broker_mqtt_CS']['ip']
-            data["edge"]["port"] = configuration['broker_mqtt_CS']['port']
-            data["edge"]["name"] = configuration['edge_server']['name']
+            #data["edge"]["username"] = configuration['broker_mqtt_ES']['user']
+            #data["edge"]["password"] = configuration['broker_mqtt_CS']['password']
+            #data["edge"]["ip"] = configuration['broker_mqtt_CS']['ip']
+            #data["edge"]["port"] = configuration['broker_mqtt_CS']['port']
+            #data["edge"]["name"] = configuration['edge_server']['name']
 
             msg = json.dumps(data)
 

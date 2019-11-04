@@ -77,7 +77,7 @@ class Event_Treatment(object):
 
             # Envia os dados para o Servidor de Contexto
             elif jsonObject['type'] == "pub" or jsonObject['type'] == "collect":
-
+                print("PUB")
                 try:
                     self.device.process(jsonObject, topic)
                 except Exception as e:

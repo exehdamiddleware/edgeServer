@@ -10,7 +10,7 @@ from event_treatment import *
 class IPC(object):
     """docstring for IPC"""
 
-    def __init__(self, event_treatment, username_CS, password_CS, host_CS, port_CS, username_ES, password_ES, host_ES, port_ES, topics):
+    def __init__(self, event_treatment, username_CS, password_CS, host_CS, port_CS, username_ES, password_ES, host_ES, port_ES, topics_ES, topics_CS):
         self.event_treatment = event_treatment
 
         # ========== Conexão com a propria borda ==========
@@ -33,7 +33,8 @@ class IPC(object):
         #==================================================
         
         # Este tópico é utilizado para receber os dados dos gateways       
-        self.add_subscribe_ES(topics)
+        self.add_subscribe_ES(topics_ES)
+        self.add_subscribe_CS(topics_CS)  
 
         # Iniciaiza a conexão com a borda e contexto
         client_loop(self.client_ES).start()
@@ -50,7 +51,7 @@ class IPC(object):
 
     # Recebe a mensagem do broker e envia para o processamento de eventos para tratar a mensagem
     def on_message_ES(self, mosq, obj, msg):
-        print("Receive")
+        print("Receive ES")
         self.event_treatment.process_event(json.loads(msg.payload.decode("utf-8")),msg.topic)
         
     # Envia uma publicação para o Servidor de Contexto
@@ -70,7 +71,7 @@ class IPC(object):
     # Recebe a mensagem do broker e envia para o processamento de eventos para tratar a mensagem
     def on_message_CS(self, mosq, obj, msg):
         # print(json.loads(msg.payload.decode("utf-8")))
-
+        print("Receive CS")
         self.event_treatment.process_event(json.loads(msg.payload.decode("utf-8")))
 
     def on_publish_CS(self, topic, msg):

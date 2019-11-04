@@ -27,7 +27,7 @@ port_ES = jsonR['broker_mqtt_ES']['port']
 
 # Lista de tópicos
 topics = jsonR['topics']
-topics.append("ES_"+uuid_ES)
+# topics.append("ES_"+uuid_ES)
 
 # mosquitto_sub -t "GW_3aa027bd-4afc-461c-b353-c2535008f4ce" -u "middleware" -P "exehda" -h 127.0.0.1 -p 1883
 
@@ -41,15 +41,17 @@ event_treatment = Event_Treatment(jsonR)
 scheduler = Scheduler_Edge_Server(event_treatment)
 event_treatment.add_object_scheduler(scheduler)
 
-ipc = IPC(event_treatment, username_CS, password_CS, host_CS, port_CS, username_ES, password_ES, host_ES, port_ES, topics)
+ipc = IPC(event_treatment, username_CS, password_CS, host_CS, port_CS, username_ES, password_ES, host_ES, port_ES, topics, "ES_"+uuid_ES)
 
 event_treatment.add_object_ipc(ipc)
 
 
 
-msg = {'edge_server': {'uuid':jsonR['edge_server']['uuid'], 'name':jsonR['edge_server']['name'], 'user':jsonR['broker_mqtt_ES']['user'], 'password':jsonR['broker_mqtt_ES']['password'], 'ip':jsonR['broker_mqtt_ES']['ip'], 'port':jsonR['broker_mqtt_ES']['port']}}
+msg = {'type':'configuration', 'edge_server': {'uuid':jsonR['edge_server']['uuid'], 'name':jsonR['edge_server']['name'], 'user':jsonR['broker_mqtt_ES']['user'], 'password':jsonR['broker_mqtt_ES']['password'], 'ip':jsonR['broker_mqtt_ES']['ip'], 'port':jsonR['broker_mqtt_ES']['port']}}
 
-ipc.on_publish_CS("ES", json.dumps(msg))
+
+#ipc.on_publish_CS("contextserver", json.dumps(json_read))
+ipc.on_publish_CS("contextserver", json.dumps(msg))
 
 
 
