@@ -9,7 +9,7 @@ import datetime
 
 class Subscriber(object):
     
-    def __init__(self,username_ES,password_ES,host_ES,port_ES,topic_ES,sensors,gateway):
+    def __init__(self,device,username_ES,password_ES,host_ES,port_ES,topic_ES,sensors,gateway):
 
         self.client = paho.Client()
         self.client.on_connect = self.on_connect
@@ -24,27 +24,34 @@ class Subscriber(object):
         self.gateway = gateway
         self.topic_pub = topic_ES
 
+        self.device = device
         # CLIENT_LOOP é colocado em uma thread para que o programa não entre em
         # loop e não bloqueia a adição de novos TOPICOS
         client_loop(self.client).start()
 
     def add_subscribe(self, topico):
+        print(topico)
         self.client.subscribe(topico, 0)
 
     def on_connect(self, client, userdata, flags, rc):
         print(rc)
 
     def on_message(self, mosq, obj, msg):
-        data = json.loads(msg.payload.decode("utf-8"))
-        print(data)
-
+        
         try:
-            collect_data = self.collect_sensor(data["uuid"])
-            # msg = '{"date": "2019-09-23 10:19:44", "uuid_gateway": "3aa027bd-4afc-461c-b353-c2535008f4ce", "uuid_edge": "b0013009-740b-4373-9aec-687c7818df06", "uuid_sensor": "a08042cf-8610-4bd4-8bea-6320ce7c613b", "data": 85.0, "type": "pub"}'
-            self.on_publish(collect_data)
+            data = json.loads(msg.payload.decode("utf-8"))
+        # print(msg.payload.decode("utf-8"))
+            self.device.collect_data(data)
+        # print(data)
         except Exception as e:
-            print("Erro na mensagem recebida para coleta ou na coleta do dado")
             print(str(e))
+        # try:
+        #     collect_data = self.collect_sensor(data["uuid"])
+        #     # msg = '{"date": "2019-09-23 10:19:44", "uuid_gateway": "3aa027bd-4afc-461c-b353-c2535008f4ce", "uuid_edge": "b0013009-740b-4373-9aec-687c7818df06", "uuid_sensor": "a08042cf-8610-4bd4-8bea-6320ce7c613b", "data": 85.0, "type": "pub"}'
+        #     self.on_publish(collect_data)
+        # except Exception as e:
+        #     print("Erro na mensagem recebida para coleta ou na coleta do dado")
+        #     print(str(e))
 
     def on_publish(self, msg):
         self.client.publish(topic=self.topic_pub, payload=msg, qos=0, retain=False)

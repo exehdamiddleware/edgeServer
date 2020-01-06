@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from subscriber import *
+from collect_device import *
 import json
 from read_json import *
 
@@ -23,7 +24,10 @@ port_ES = json['broker_mqtt']['port']
 topic_ES = json['broker_mqtt']['topic']
 
 # Cria o objeto para a conexão com o Servidor de Borda
-subscriber = Subscriber(username_ES,password_ES,host_ES,port_ES,topic_ES,sensors,gateway)
+device = Collect_devide()
+subscriber = Subscriber(device,username_ES,password_ES,host_ES,port_ES,topic_ES,sensors,gateway)
+
+device.add_object_subscriber(subscriber)
 
 # subscriber.on_publish()
 
